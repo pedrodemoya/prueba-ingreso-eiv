@@ -14,6 +14,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.eiv.pruebaingreso.enums.Genero;
 
@@ -21,36 +23,37 @@ import com.eiv.pruebaingreso.enums.Genero;
 @Table(name = "personas")
 @Inheritance(strategy=InheritanceType.JOINED)
 public class Persona {
-
+	
 	@EmbeddedId
-	private PersonaPK personaPK;
+	protected PersonaPK personaPK;
 
 	@Column(name = "nombre_apellido", length = 400, nullable = false)
-	private String nombrApellido;
-
+	protected String nombreApellido;
+	
 	@Column(name = "fecha_nacimiento", nullable = false)
-	private Date fechNacimiento;
+	@Temporal(TemporalType.DATE)
+	protected Date fechNacimiento;
 
 	@Column(name = "genero", nullable = false, length = 1)
 	@Enumerated(EnumType.STRING)
-	private Genero genero;
+	protected Genero genero;
 
 	@Column(name = "es_argentino", nullable = false)
-	private Boolean esArgentino;
+	protected Boolean esArgentino;
 
 	@Column(name = "correo_electronico", length = 300, nullable = true)
-	private String correoElectronico;
+	protected String correoElectronico;
 
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "foto_cara", nullable = true)
-	private byte[] fotoCara;
+	protected byte[] fotoCara;
 
-	@ManyToOne
-	private Localidad localidad;
+	@ManyToOne(optional = false)
+	protected Localidad localidad;
 
 	@Column(name = "codigo_postal", length = 10, nullable = false)
-	private String codigoPostal;
+	protected String codigoPostal;
 
 	public Persona() {
 
@@ -65,11 +68,11 @@ public class Persona {
 	}
 
 	public String getNombrApellido() {
-		return nombrApellido;
+		return nombreApellido;
 	}
 
 	public void setNombrApellido(String nombrApellido) {
-		this.nombrApellido = nombrApellido;
+		this.nombreApellido = nombrApellido;
 	}
 
 	public Date getFechNacimiento() {

@@ -3,15 +3,17 @@ package com.eiv.pruebaingreso.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
 @Embeddable
 public class PersonaPK implements Serializable{
 	
-	@ManyToOne
+	@ManyToOne(optional = false)
 	protected TipoDocumento tipo_documento;
-
+	
+	@Column(name = "numero_documento")
 	protected Integer numero_documento;
 
 	public PersonaPK() {

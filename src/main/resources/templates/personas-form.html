@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cargar personas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Home</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="../personas/ver">Personas</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Agregar nueva persona</h2>
+    <form th:action="@{/personas/guardar}" method="post">
+      <div class="form-group">
+        <label for="tipoDocumento">Tipo de documento</label>
+        <select class="form-control" id="tipoDocumento" name="idTipoDocumento">
+          <option th:each="tipoDocumento : ${tipoDocumentos}" th:value="${tipoDocumento.id}" th:text="${tipoDocumento.abreviatura}">
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="documento">Número de documento</label>
+        <input type="text" class="form-control" id="documento" name="numeroDocumento" placeholder="Numero de documento" />
+      </div>
+      <div class="form-group">
+        <label for="nombre">Nombre y Apellido</label>
+        <input type="text" class="form-control" name="nombreApellido" id="nombre" placeholder="Nombre y apellido" />
+      </div>
+      <div class="form-group">
+        <label for="nacimiento">Fecha de nacimiento</label>
+        <input type="date" class="form-control" id="nacimiento" name="fechaNacimiento"/>
+      </div>
+      <div th:each="genero: ${T(com.eiv.pruebaingreso.enums.Genero).values()}" class="form-check">
+        <input class="form-check-input" type="radio" name="genero" th:id="${genero}"
+          th:value="${genero}" />
+        <label class="form-check-label" th:for="${genero}" th:text="${genero}">
+        </label>
+      </div>
+      <div class="form-group">
+        <label for="mail">Correo Electronico</label>
+        <input type="text" class="form-control" id="mail" name="correoElectronico" placeholder="Correo electrónico" />
+      </div>
+      <div class="form-group">
+        <label for="selectLocalidad">Localidad</label>
+        <select class="form-control" id="localidad" name="idLocalidad">
+          <option th:each="localidad : ${localidades}" th:value="${localidad.id}" th:text="${localidad.nombre}">
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="codigoPostal">Codigo Postal</label>
+        <input type="text" class="form-control" id="codigoPostal" name="codigoPostal"/>
+      </div>
+
+      <br>
+      <input class="btn btn-primary" type="submit">
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

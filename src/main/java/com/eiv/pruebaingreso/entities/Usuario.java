@@ -15,10 +15,9 @@ import javax.persistence.Table;
 public class Usuario extends Persona{
 	
 	@Column(name = "nombre_usuario", length = 50, nullable = false, unique = true)
-	private String usuario;
+	protected String usuario;
 	@Column(name = "hashed_pwd", length = 200, nullable = false)
-	private String password;
-	
+	protected String password;
 
 	public Usuario() {
 		super();

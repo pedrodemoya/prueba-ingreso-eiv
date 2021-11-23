@@ -20,7 +20,7 @@ public class Localidad {
 	@Column(name = "nombre", length = 300, nullable = false)
 	private String nombre;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private Provincia provincia;
 
 	@Column(name = "codigo_postal", length = 10, nullable = false)
