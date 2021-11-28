@@ -50,18 +50,18 @@
                 <tbody>
                     <tr th:each="persona : ${personas}">
                         
-                        <td th:text="${persona.nombreApellido}"></td>
+                        <td th:text="${persona.nombre}"></td>
                         <td th:text="${persona.fechNacimiento}"></td>
-                        <td th:text="${persona.genero}*100/"></td>
+                        <td th:text="${persona.genero}"></td>
                         <td th:text="${persona.correoElectronico}"></td>
                         <td th:text="${persona.localidad.nombre}"></td>
                         <td th:text="${persona.codigoPostal}"></td>
                         <td th:text="${persona.esArgentino}"></td>
                         <td>
-                            <a class="btn btn-primary" th:href="@{./editar/}+${persona.correoElectronico}" role="button">Editar</a>
+                            <a class="btn btn-primary" th:href="@{./editar/}+${persona.personaPK.id_tipodocumento}+'/'+${persona.personaPK.numero_documento}" role="button">Editar</a>
                         </td>
                         <td>
-                            <a class="btn btn-danger" th:href="@{./baja/}+${persona.correoElectronico}" role="button">Eliminar</a>
+                            <a class="btn btn-danger" th:href="@{./baja/}+${persona.personaPK.id_tipodocumento}+'/'+${persona.personaPK.numero_documento}" role="button">Eliminar</a>
                         </td>
                     </tr>
                 </tbody>

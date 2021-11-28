@@ -1,6 +1,6 @@
 package com.eiv.pruebaingreso.services;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +29,16 @@ public class PersonaService {
 
 	@Transactional
 	public Persona crear(Integer idTipoDocumento, Integer numeroDocumento, String nombreApellido,
-			Date fechaNacimiento, String genero, String correoElectronico, byte[] foto,
+			LocalDate fechaNacimiento, String genero, String correoElectronico, byte[] foto,
 			Integer idLocalidad, String codigoPostal) throws Exception {
 
 		try {
-			PersonaPK personaPK = new PersonaPK(tipoDocumentoRepository.findById(idTipoDocumento).get(), numeroDocumento);
+			PersonaPK personaPK = new PersonaPK(idTipoDocumento, numeroDocumento);
 
 			Persona persona = new Persona();
 
 			persona.setPersonaPK(personaPK);
-			persona.setNombrApellido(nombreApellido);
+			persona.setNombre(nombreApellido);
 			persona.setFechNacimiento(fechaNacimiento);
 			persona.setGenero(Genero.valueOf(genero));
 			persona.setEsArgentino(true);

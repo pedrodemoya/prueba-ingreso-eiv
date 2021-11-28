@@ -1,6 +1,6 @@
 package com.eiv.pruebaingreso.controllers;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import com.eiv.pruebaingreso.services.TipoDocumentoService;
 @Controller
 @RequestMapping("/personas")
 public class PersonaController {
-	
+
 	@Autowired
 	private PersonaService personaService;
 
@@ -64,14 +64,17 @@ public class PersonaController {
 
 	@PostMapping("/guardar")
 	public String guardar(@RequestParam Integer idTipoDocumento, @RequestParam Integer numeroDocumento,
-			@RequestParam String nombreApellido, @RequestParam Date fechaNacimiento, @RequestParam String genero,
+			@RequestParam String nombreApellido, @RequestParam String fechaNacimiento, @RequestParam String genero,
 			@RequestParam String correoElectronico, @RequestParam(required = false) byte[] foto,
 			@RequestParam Integer idLocalidad, @RequestParam String codigoPostal, ModelMap model) throws Exception {
 
 		try {
 
-			personaService.crear(idTipoDocumento, numeroDocumento, nombreApellido, fechaNacimiento, genero,
-					correoElectronico, foto, idLocalidad, codigoPostal);
+			personaService.crear(idTipoDocumento, numeroDocumento, nombreApellido, LocalDate.parse(fechaNacimiento),
+					genero, correoElectronico, foto, idLocalidad, codigoPostal);
+
+			List<Persona> personas = personaService.listarTodas();
+			model.addAttribute("personas", personas);
 
 			return "lista-personas.html";
 		} catch (Exception e) {

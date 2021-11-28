@@ -1,7 +1,7 @@
 package com.eiv.pruebaingreso.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -66,8 +66,8 @@ public class UsuarioService implements UserDetailsService {
 	}
 
 	@Transactional
-	public Usuario crear(TipoDocumento tipoDocumento, Integer numeroDocumento, String nombreApellido,
-			Date fechaNacimiento, String genero, Boolean esArgentino, String correoElectronico, byte[] foto,
+	public Usuario crear(int tipoDocumento, Integer numeroDocumento, String nombreApellido,
+			LocalDate fechaNacimiento, String genero, Boolean esArgentino, String correoElectronico, byte[] foto,
 			Integer idLocalidad, String codigoPostal, String nombreUsuario, String password) throws Exception {
 		try {
 			PersonaPK personaPK = new PersonaPK(tipoDocumento, numeroDocumento);
@@ -75,7 +75,7 @@ public class UsuarioService implements UserDetailsService {
 			Usuario usuario = new Usuario();
 			
 			usuario.setPersonaPK(personaPK);
-			usuario.setNombrApellido(nombreApellido);
+			usuario.setNombre(nombreApellido);
 			usuario.setFechNacimiento(fechaNacimiento);
 			usuario.setGenero(Genero.valueOf(genero));
 			usuario.setEsArgentino(esArgentino);

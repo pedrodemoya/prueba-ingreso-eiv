@@ -5,32 +5,32 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.ManyToOne;
 
 @Embeddable
-public class PersonaPK implements Serializable{
-	
-	@ManyToOne(optional = false)
-	protected TipoDocumento tipo_documento;
-	
+public class PersonaPK implements Serializable {
+
+	@Column(name = "id_tipodocumento")
+	private Integer id_tipodocumento;
+
 	@Column(name = "numero_documento")
-	protected Integer numero_documento;
+	private Integer numero_documento;
 
 	public PersonaPK() {
 
 	}
 
-	public PersonaPK(TipoDocumento tipo_documento, Integer numero_documento) {
-		this.tipo_documento = tipo_documento;
+	public PersonaPK(int id_tipodocumento, Integer numero_documento) {
+		super();
+		this.id_tipodocumento = id_tipodocumento;
 		this.numero_documento = numero_documento;
 	}
 
-	public TipoDocumento getTipo_documento() {
-		return tipo_documento;
+	public int getId_tipodocumento() {
+		return id_tipodocumento;
 	}
 
-	public void setTipo_documento(TipoDocumento tipo_documento) {
-		this.tipo_documento = tipo_documento;
+	public void setId_tipodocumento(Integer id_tipodocumento) {
+		this.id_tipodocumento = id_tipodocumento;
 	}
 
 	public Integer getNumero_documento() {
@@ -43,7 +43,7 @@ public class PersonaPK implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(numero_documento, tipo_documento);
+		return Objects.hash(id_tipodocumento, numero_documento);
 	}
 
 	@Override
@@ -55,9 +55,8 @@ public class PersonaPK implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		PersonaPK other = (PersonaPK) obj;
-		return Objects.equals(numero_documento, other.numero_documento)
-				&& Objects.equals(tipo_documento, other.tipo_documento);
+		return id_tipodocumento == other.id_tipodocumento && Objects.equals(numero_documento, other.numero_documento);
 	}
-	
+
 	
 }

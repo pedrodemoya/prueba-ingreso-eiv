@@ -1,59 +1,64 @@
 package com.eiv.pruebaingreso.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.PrimaryKeyJoinColumns;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.eiv.pruebaingreso.enums.Genero;
 
 @Entity
 @Table(name = "personas")
-@Inheritance(strategy=InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Persona {
-	
+
 	@EmbeddedId
-	protected PersonaPK personaPK;
+	@PrimaryKeyJoinColumns({ @PrimaryKeyJoinColumn(name = "id_tipodocumento"),
+			@PrimaryKeyJoinColumn(name = "numero_documento") })
+	private PersonaPK personaPK;
+
+	@ManyToOne
+	@JoinColumn(name = "id_tipodocumento", insertable = false, updatable = false)
+	private TipoDocumento tipoDocumento;
 
 	@Column(name = "nombre_apellido", length = 400, nullable = false)
-	protected String nombreApellido;
-	
+	private String nombre;
+
 	@Column(name = "fecha_nacimiento", nullable = false)
-	@Temporal(TemporalType.DATE)
-	protected Date fechNacimiento;
+	private LocalDate fechNacimiento;
 
 	@Column(name = "genero", nullable = false, length = 1)
-	@Enumerated(EnumType.STRING)
-	protected Genero genero;
+	private Genero genero;
 
 	@Column(name = "es_argentino", nullable = false)
-	protected Boolean esArgentino;
+	private Boolean esArgentino;
 
 	@Column(name = "correo_electronico", length = 300, nullable = true)
-	protected String correoElectronico;
+	private String correoElectronico;
 
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "foto_cara", nullable = true)
-	protected byte[] fotoCara;
+	private byte[] fotoCara;
 
 	@ManyToOne(optional = false)
-	protected Localidad localidad;
+	@JoinColumn(name = "id_localidad")
+	private Localidad localidad;
 
 	@Column(name = "codigo_postal", length = 10, nullable = false)
-	protected String codigoPostal;
+	private String codigoPostal;
 
 	public Persona() {
 
@@ -67,19 +72,27 @@ public class Persona {
 		this.personaPK = personaPK;
 	}
 
-	public String getNombrApellido() {
-		return nombreApellido;
+	public TipoDocumento getTipoDocumento() {
+		return tipoDocumento;
 	}
 
-	public void setNombrApellido(String nombrApellido) {
-		this.nombreApellido = nombrApellido;
+	public void setTipoDocumento(TipoDocumento tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
 	}
 
-	public Date getFechNacimiento() {
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public LocalDate getFechNacimiento() {
 		return fechNacimiento;
 	}
 
-	public void setFechNacimiento(Date fechNacimiento) {
+	public void setFechNacimiento(LocalDate fechNacimiento) {
 		this.fechNacimiento = fechNacimiento;
 	}
 
@@ -129,6 +142,23 @@ public class Persona {
 
 	public void setCodigoPostal(String codigoPostal) {
 		this.codigoPostal = codigoPostal;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(personaPK);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Persona other = (Persona) obj;
+		return Objects.equals(personaPK, other.personaPK);
 	}
 
 }
