@@ -27,38 +27,38 @@ public class Persona {
 	@EmbeddedId
 	@PrimaryKeyJoinColumns({ @PrimaryKeyJoinColumn(name = "id_tipodocumento"),
 			@PrimaryKeyJoinColumn(name = "numero_documento") })
-	private PersonaPK personaPK;
+	protected PersonaPK personaPK;
 
 	@ManyToOne
 	@JoinColumn(name = "id_tipodocumento", insertable = false, updatable = false)
-	private TipoDocumento tipoDocumento;
+	protected TipoDocumento tipoDocumento;
 
 	@Column(name = "nombre_apellido", length = 400, nullable = false)
-	private String nombre;
+	protected String nombre;
 
 	@Column(name = "fecha_nacimiento", nullable = false)
-	private LocalDate fechNacimiento;
+	protected LocalDate fechNacimiento;
 
 	@Column(name = "genero", nullable = false, length = 1)
-	private Genero genero;
+	protected Genero genero;
 
 	@Column(name = "es_argentino", nullable = false)
-	private Boolean esArgentino;
+	protected Boolean esArgentino;
 
 	@Column(name = "correo_electronico", length = 300, nullable = true)
-	private String correoElectronico;
+	protected String correoElectronico;
 
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
-	@Column(name = "foto_cara", nullable = true)
-	private byte[] fotoCara;
+	@Column(name = "foto_cara", nullable = true, columnDefinition = "BLOB")
+	protected byte[] fotoCara;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "id_localidad")
-	private Localidad localidad;
+	protected Localidad localidad;
 
 	@Column(name = "codigo_postal", length = 10, nullable = false)
-	private String codigoPostal;
+	protected String codigoPostal;
 
 	public Persona() {
 

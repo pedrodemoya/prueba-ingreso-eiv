@@ -29,34 +29,107 @@
   </nav>
 
   <div class="container">
-    <h2>Agregar nueva persona</h2>
-    <form th:action="@{/personas/guardar}" method="post">
+
+    <h2 th:if="${persona} != null">Modificar persona</h2>
+
+    <h2 th:unless="${persona} != null">Agregar nueva persona</h2>
+
+    <form th:if="${persona} != null" th:action="@{/personas/editar}" method="post" enctype="multipart/form-data">
+      <input hidden type="text" name="idTipoDocumento" th:value="${persona.personaPK.id_tipodocumento}">
+      <input hidden type="text" name="numeroDocumento" th:value="${persona.personaPK.numero_documento}">
       <div class="form-group">
         <label for="tipoDocumento">Tipo de documento</label>
-        <select class="form-control" id="tipoDocumento" name="idTipoDocumento">
-          <option th:each="tipoDocumento : ${tipoDocumentos}" th:value="${tipoDocumento.id}" th:text="${tipoDocumento.abreviatura}">
+        <select class="form-control" id="tipoDocumento" name="idTipoDocumentoNuevo">
+          <option th:each="tipoDocumento : ${tipoDocumentos}" th:value="${tipoDocumento.id}"
+            th:text="${tipoDocumento.abreviatura}">
         </select>
       </div>
       <div class="form-group">
         <label for="documento">Número de documento</label>
-        <input type="text" class="form-control" id="documento" name="numeroDocumento" placeholder="Numero de documento" />
+        <input th:if="${persona} != null" type="number" class="form-control" id="documento" name="numeroDocumentoNuevo"
+          th:value="${persona.personaPK.numero_documento}" />
+
       </div>
       <div class="form-group">
         <label for="nombre">Nombre y Apellido</label>
-        <input type="text" class="form-control" name="nombreApellido" id="nombre" placeholder="Nombre y apellido" />
+        <input th:if="${persona} != null" type="text" class="form-control" name="nombreApellido" id="nombre"
+          th:value="${persona.nombre}" />
+
+      </div>
+      <div class="form-group">
+        <label for="foto-cara">Foto (Opcional)</label>
+        <input type="file" id="foto-cara" name="foto" accept="image/*" />
       </div>
       <div class="form-group">
         <label for="nacimiento">Fecha de nacimiento</label>
-        <input type="date" class="form-control" id="nacimiento" name="fechaNacimiento"/>
+        <input th:if="${persona} != null" type="date" class="form-control" id="nacimiento" name="fechaNacimiento"
+          th:value="${persona.fechNacimiento}" />
+
       </div>
       <div th:each="genero: ${T(com.eiv.pruebaingreso.enums.Genero).values()}" class="form-check">
-        <input class="form-check-input" type="radio" name="genero" th:id="${genero}"
-          th:value="${genero}" />
+        <input class="form-check-input" type="radio" name="genero" th:id="${genero}" th:value="${genero}" />
         <label class="form-check-label" th:for="${genero}" th:text="${genero}">
         </label>
       </div>
       <div class="form-group">
         <label for="mail">Correo Electronico</label>
+        <input th:if="${persona} != null" type="text" class="form-control" id="mail" name="correoElectronico"
+          th:value="${persona.correoElectronico}" />
+
+      </div>
+      <div class="form-group">
+        <label for="selectLocalidad">Localidad</label>
+        <select class="form-control" id="localidad" name="idLocalidad">
+          <option th:each="localidad : ${localidades}" th:value="${localidad.id}" th:text="${localidad.nombre}">
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="codigoPostal">Codigo Postal</label>
+        <input th:if="${persona} != null" type="text" class="form-control" id="codigoPostal" name="codigoPostal"
+          th:value="${persona.codigoPostal}" />
+
+      </div>
+
+      <br>
+      <input class="btn btn-primary" type="submit">
+    </form>
+
+    <form th:unless="${persona} != null" th:action="@{/personas/guardar}" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="tipoDocumento">Tipo de documento</label>
+        <select class="form-control" id="tipoDocumento" name="idTipoDocumento">
+          <option th:each="tipoDocumento : ${tipoDocumentos}" th:value="${tipoDocumento.id}"
+            th:text="${tipoDocumento.abreviatura}">
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="documento">Número de documento</label>
+
+        <input type="number" class="form-control" id="documento" name="numeroDocumento"
+          placeholder="Numero de documento" />
+      </div>
+      <div class="form-group">
+        <label for="nombre">Nombre y Apellido</label>
+
+        <input type="text" class="form-control" name="nombreApellido" id="nombre" placeholder="Nombre y apellido" />
+      </div>
+      <div class="form-group">
+        <label for="foto-cara">Foto (Opcional)</label>
+        <input type="file" id="foto-cara" name="foto" accept="image/*" />
+      </div>
+      <div class="form-group">
+        <label for="nacimiento">Fecha de nacimiento</label>
+
+        <input type="date" class="form-control" id="nacimiento" name="fechaNacimiento" />
+      </div>
+      <div th:each="genero: ${T(com.eiv.pruebaingreso.enums.Genero).values()}" class="form-check">
+        <input class="form-check-input" type="radio" name="genero" th:id="${genero}" th:value="${genero}" />
+        <label class="form-check-label" th:for="${genero}" th:text="${genero}">
+        </label>
+      </div>
+      <div class="form-group">
+        <label for="mail">Correo Electronico</label>
+
         <input type="text" class="form-control" id="mail" name="correoElectronico" placeholder="Correo electrónico" />
       </div>
       <div class="form-group">
@@ -67,7 +140,8 @@
       </div>
       <div class="form-group">
         <label for="codigoPostal">Codigo Postal</label>
-        <input type="text" class="form-control" id="codigoPostal" name="codigoPostal"/>
+
+        <input type="text" class="form-control" id="codigoPostal" name="codigoPostal" />
       </div>
 
       <br>
