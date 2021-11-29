@@ -23,7 +23,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.eiv.pruebaingreso.entities.Localidad;
 import com.eiv.pruebaingreso.entities.PersonaPK;
-import com.eiv.pruebaingreso.entities.TipoDocumento;
 import com.eiv.pruebaingreso.entities.Usuario;
 import com.eiv.pruebaingreso.enums.Genero;
 import com.eiv.pruebaingreso.repositories.LocalidadRepository;
@@ -66,7 +65,7 @@ public class UsuarioService implements UserDetailsService {
 	}
 
 	@Transactional
-	public Usuario crear(int tipoDocumento, Integer numeroDocumento, String nombreApellido,
+	public Usuario crear(Integer tipoDocumento, Integer numeroDocumento, String nombreApellido,
 			LocalDate fechaNacimiento, String genero, Boolean esArgentino, String correoElectronico, byte[] foto,
 			Integer idLocalidad, String codigoPostal, String nombreUsuario, String password) throws Exception {
 		try {

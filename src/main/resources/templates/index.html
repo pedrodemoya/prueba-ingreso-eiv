@@ -25,7 +25,13 @@
               <a class="nav-link active" aria-current="page" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/personas/ver">Personas</a>
+              <a class="nav-link active" aria-current="page" href="/personas/ver">Personas</a>
+            </li>
+            <li sec:authorize="!hasRole('ROLE_ADMIN')" class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
+              <a class="nav-link" href="/logout">Logout</a>
             </li>
           </ul>
         </div>
@@ -39,7 +45,7 @@
     <h3 th:text="${error}"></h3>
   </div>
   <footer>
-    Todos los derechos reservados.
+    Prueba ingreso EIV
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

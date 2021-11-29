@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,7 +61,8 @@ public class PersonaController {
 		}
 
 	}
-
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/guardar")
 	public String guardarPersona(ModelMap model) {
 		try {
@@ -77,7 +79,8 @@ public class PersonaController {
 		}
 
 	}
-
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/guardar")
 	public String guardar(@RequestParam Integer idTipoDocumento, @RequestParam Integer numeroDocumento,
 			@RequestParam String nombreApellido, @RequestParam String fechaNacimiento, @RequestParam String genero,
@@ -95,7 +98,7 @@ public class PersonaController {
 		}
 
 	}
-
+	
 	@PostMapping("/editar")
 	public String modificar(@RequestParam Integer idTipoDocumento, @RequestParam Integer numeroDocumento,
 			@RequestParam Integer idTipoDocumentoNuevo, @RequestParam Integer numeroDocumentoNuevo,
@@ -115,7 +118,8 @@ public class PersonaController {
 		}
 
 	}
-
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/editar/{idTipoDocumento}/{numeroDocumento}")
 	public String editar(ModelMap model, @PathVariable Integer idTipoDocumento, @PathVariable Integer numeroDocumento) {
 		try {
@@ -136,7 +140,8 @@ public class PersonaController {
 		}
 
 	}
-
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/baja/{idTipoDocumento}/{numeroDocumento}")
 	public String eliminar(ModelMap model, @PathVariable Integer idTipoDocumento,
 			@PathVariable Integer numeroDocumento) {

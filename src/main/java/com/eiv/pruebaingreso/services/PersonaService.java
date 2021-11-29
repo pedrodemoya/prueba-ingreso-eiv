@@ -73,41 +73,49 @@ public class PersonaService {
 	public Persona modificar(Integer idTipoDocumento, Integer numeroDocumento, Integer idTipoDocumentoNuevo,
 			Integer numeroDocumentoNuevo, String nombreApellido, LocalDate fechaNacimiento, String genero,
 			String correoElectronico, MultipartFile foto, Integer idLocalidad, String codigoPostal) throws Exception {
-
 		try {
+			if (idTipoDocumento != idTipoDocumentoNuevo || numeroDocumento != numeroDocumentoNuevo) {
 
-			Persona persona = personaRepository.findById(new PersonaPK(idTipoDocumento, numeroDocumento)).get();
+				personaRepository.deleteById(new PersonaPK(idTipoDocumento, numeroDocumento));
+				
+				personaRepository.flush();
+				
+				Persona persona = crear(idTipoDocumentoNuevo, numeroDocumentoNuevo, nombreApellido, fechaNacimiento,
+						genero, correoElectronico, foto, idLocalidad, codigoPostal);
 
-			PersonaPK personaPK = new PersonaPK(idTipoDocumentoNuevo, numeroDocumentoNuevo);
-
-			persona.setPersonaPK(personaPK);
-			persona.setNombre(nombreApellido);
-			persona.setFechNacimiento(fechaNacimiento);
-			persona.setGenero(Genero.valueOf(genero));
-			persona.setEsArgentino(true);
-			persona.setCorreoElectronico(correoElectronico);
-			persona.setTipoDocumento(tipoDocumentoRepository.findById(idTipoDocumentoNuevo).get());
-
-			if (foto == null || foto.isEmpty()) {
-				persona.setFotoCara(null);
+				return persona;
 			} else {
-				persona.setFotoCara(foto.getBytes());
+				Persona persona = personaRepository.findById(new PersonaPK(idTipoDocumento, numeroDocumento)).get();
+
+				persona.setNombre(nombreApellido);
+				persona.setFechNacimiento(fechaNacimiento);
+				persona.setGenero(Genero.valueOf(genero));
+				persona.setEsArgentino(true);
+				persona.setCorreoElectronico(correoElectronico);
+				persona.setTipoDocumento(tipoDocumentoRepository.findById(idTipoDocumentoNuevo).get());
+
+				if (foto == null || foto.isEmpty()) {
+					persona.setFotoCara(null);
+				} else {
+					persona.setFotoCara(foto.getBytes());
+				}
+
+				Localidad localidad = localidadRepository.findById(idLocalidad).get();
+				persona.setLocalidad(localidad);
+
+				if (codigoPostal == null || codigoPostal.isBlank()) {
+					persona.setCodigoPostal(localidad.getCodigoPostal());
+				} else {
+					persona.setCodigoPostal(codigoPostal);
+				}
+
+				personaRepository.save(persona);
+
+				return persona;
 			}
 
-			Localidad localidad = localidadRepository.findById(idLocalidad).get();
-			persona.setLocalidad(localidad);
-
-			if (codigoPostal == null || codigoPostal.isBlank()) {
-				persona.setCodigoPostal(localidad.getCodigoPostal());
-			} else {
-				persona.setCodigoPostal(codigoPostal);
-			}
-
-			personaRepository.save(persona);
-
-			return persona;
 		} catch (Exception e) {
-			throw new Exception("Error al crear persona");
+			throw new Exception("Error al modificar persona");
 		}
 	}
 
@@ -133,7 +141,7 @@ public class PersonaService {
 			throw new Exception("Error al buscar persona por id");
 		}
 	}
-	
+
 	@Transactional(readOnly = true)
 	public List<Persona> buscarPorNombreOmail(String busqueda) throws Exception {
 		try {
